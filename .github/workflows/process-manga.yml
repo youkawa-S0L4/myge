@@ -1,0 +1,33 @@
+name: Xử lý ảnh manga
+
+on:
+  push:
+    paths:
+      - 'manga/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Cài Pillow
+        run: pip install Pillow
+
+      - name: Tối ưu ảnh & tạo library.json
+        run: python3 .github/scripts/process.py
+
+      - name: Commit kết quả
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Tự động tối ưu ảnh manga + cập nhật thư viện"
+          file_pattern: 'manga/** library.json'
+          
