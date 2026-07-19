@@ -18,6 +18,7 @@ body{
 }
 #app{min-height:100vh;}
 a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
 
 /* ---- Thanh trên cùng ---- */
 .topbar{
@@ -31,7 +32,7 @@ a{color:inherit;text-decoration:none;}
   font-size:20px;color:var(--fg);
   width:32px;height:32px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  background:var(--bg-elev);
+  background:var(--bg-elev);flex:none;
 }
 .topbar h1{
   font-family:'Fraunces',serif;font-weight:500;
@@ -49,9 +50,25 @@ a{color:inherit;text-decoration:none;}
 }
 .library-header p{color:var(--muted);font-size:13px;margin:8px 0 0;}
 
+.search-panel{padding:20px 20px 4px;}
+#search-input{
+  width:100%;padding:13px 16px;border-radius:24px;border:1px solid var(--line);
+  background:var(--bg-elev);color:var(--fg);font-size:14px;
+}
+#search-input::placeholder{color:var(--muted);}
+.tag-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.chip{
+  padding:7px 14px;border-radius:20px;border:1px solid var(--line);
+  background:var(--bg-elev);color:var(--muted);font-size:12px;
+}
+.chip.active{
+  background:linear-gradient(120deg,#A78BFA,#22D3EE);
+  color:#100D18;border-color:transparent;font-weight:600;
+}
+
 .grid{
   display:grid;grid-template-columns:repeat(2,1fr);
-  gap:22px 14px;padding:24px 20px 60px;
+  gap:22px 14px;padding:20px 20px 60px;
 }
 @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:980px){.grid{grid-template-columns:repeat(5,1fr);}}
@@ -91,18 +108,26 @@ a{color:inherit;text-decoration:none;}
   font-size:clamp(20px,4vw,27px);margin:0 0 8px;line-height:1.2;
 }
 .series-hero .meta .author{color:var(--muted);font-size:13px;}
-.series-hero .meta .count{
-  display:inline-block;margin-top:14px;
+
+.tags-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.tag-pill{
+  font-size:10.5px;padding:4px 10px;border-radius:14px;
+  background:var(--bg-elev);color:var(--muted);border:1px solid var(--line);
+}
+
+.hero-actions{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.hero-actions .count{
   font-size:11px;letter-spacing:.05em;text-transform:uppercase;
-  padding:5px 11px;border-radius:20px;
+  padding:8px 13px;border-radius:20px;
   background:linear-gradient(120deg, var(--accent,#A78BFA), transparent 140%);
   color:var(--fg);
 }
 
 .chapter-list{padding:14px 20px 60px;}
-.chapter-row{
-  display:flex;align-items:center;gap:13px;
-  padding:14px 4px;border-bottom:1px solid var(--line);
+.chapter-row{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);}
+.chapter-link{
+  flex:1;min-width:0;display:flex;align-items:center;gap:13px;
+  padding:14px 4px 14px 0;
 }
 .chap-badge{
   width:30px;height:30px;flex:none;border-radius:50%;
@@ -110,8 +135,24 @@ a{color:inherit;text-decoration:none;}
   font-size:12px;font-weight:700;color:#100D18;
   background:linear-gradient(135deg, var(--accent,#A78BFA), #fff8);
 }
-.chapter-row .name{flex:1;font-size:15px;}
-.chapter-row .pages{font-size:12px;color:var(--muted);}
+.chapter-link .name{flex:1;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.chapter-link .pages{font-size:12px;color:var(--muted);flex:none;}
+.dl-btn{
+  flex:none;width:34px;height:34px;border-radius:50%;
+  background:var(--bg-elev);border:none;color:var(--fg);font-size:13px;
+}
+.dl-btn:disabled{opacity:.5;}
+
+.btn{
+  padding:11px 20px;border:1px solid var(--line);border-radius:24px;
+  color:var(--fg);font-size:13px;background:var(--bg-elev);
+}
+.btn.small{padding:8px 15px;font-size:12px;}
+.btn.primary{
+  background:linear-gradient(135deg, var(--accent,#A78BFA), #FF6B6B);
+  color:#100D18;font-weight:700;border:none;
+}
+.btn.primary:disabled{opacity:.55;}
 
 /* ---- Trình đọc ---- */
 .reader{position:fixed;inset:0;background:#000;z-index:50;}
@@ -150,14 +191,6 @@ a{color:inherit;text-decoration:none;}
 }
 .end-panel p{color:var(--muted);font-size:13px;max-width:280px;}
 .end-panel .actions{display:flex;gap:10px;}
-.btn{
-  padding:11px 20px;border:1px solid var(--line);border-radius:24px;
-  color:var(--fg);font-size:13px;background:var(--bg-elev);
-}
-.btn.primary{
-  background:linear-gradient(135deg, var(--accent,#A78BFA), #FF6B6B);
-  color:#100D18;font-weight:700;border:none;
-}
 
 *:focus-visible{outline:2px solid var(--accent,#A78BFA);outline-offset:2px;}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
