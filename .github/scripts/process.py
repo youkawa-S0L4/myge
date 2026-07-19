@@ -2,11 +2,12 @@
 """Chạy tự động trong GitHub Actions mỗi khi có ảnh mới trong manga/.
 
 Cấu trúc thư mục mong đợi:
-  manga/<series-slug>/_series.json        (tuỳ chọn: {"title": "...", "author": "..."})
+  manga/<series-slug>/_series.json
+      { "title": "...", "author": "...", "tags": ["Hành động", "Học đường"] }
   manga/<series-slug>/<chapter-slug>/*.jpg|jpeg|png
 
 Script sẽ: nén ảnh sang WebP, xoá bản gốc nặng, và tạo library.json chứa
-toàn bộ danh sách truyện/chương/trang cho trang web đọc.
+toàn bộ danh sách truyện/chương/trang/tag cho trang web đọc.
 """
 import json
 import re
@@ -64,6 +65,9 @@ def build_library():
 
         title = meta.get("title") or titleize(series_dir.name)
         author = meta.get("author") or "Không rõ"
+        tags = meta.get("tags") or []
+        if not isinstance(tags, list):
+            tags = []
 
         chapter_dirs = sorted(
             (d for d in series_dir.iterdir() if d.is_dir()),
@@ -95,6 +99,7 @@ def build_library():
             "slug": series_dir.name,
             "title": title,
             "author": author,
+            "tags": tags,
             "cover": cover,
             "chapters": chapters,
         })
@@ -106,4 +111,3 @@ def build_library():
 if __name__ == "__main__":
     optimize_images()
     build_library()
-          
