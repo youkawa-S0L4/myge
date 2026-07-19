@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <h1 class="title">Gallery</h1>
+  <span class="count" id="photo-count"></span>
+</header>
+
+<main id="grid" class="grid" aria-live="polite"></main>
+
+<div id="lightbox" class="lightbox" hidden>
+  <button class="lb-close" id="lb-close" aria-label="Đóng">×</button>
+  <button class="lb-prev" id="lb-prev" aria-label="Ảnh trước">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-next" id="lb-next" aria-label="Ảnh sau">›</button>
+  <div class="lb-index" id="lb-index"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
