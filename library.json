@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "slug": "Co-hoc-tro-cu-Ninose",
+    "title": "Cô học trò cũ Ninose",
+    "author": "Kurotama",
+    "tags": [
+      "School life",
+      "romance",
+      "Comedy"
+    ],
+    "cover": "manga/Co-hoc-tro-cu-Ninose/chap-1/001.webp",
+    "chapters": [
+      {
+        "name": "Chap 1",
+        "slug": "chap-1",
+        "pages": [
+          "manga/Co-hoc-tro-cu-Ninose/chap-1/001.webp"
+        ]
+      }
+    ]
+  }
+]
