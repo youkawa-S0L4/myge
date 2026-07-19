@@ -2,6 +2,14 @@
 // "https://cdn.jsdelivr.net/gh/USER/REPO@main/"
 const CDN_BASE = "";
 
+// Bảng màu accent — mỗi bộ truyện được gán 1 màu cố định dựa trên tên (slug)
+const ACCENTS = ['#FF6B6B', '#A78BFA', '#22D3EE', '#FBBF24', '#34D399', '#F472B6'];
+function accentFor(slug){
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return ACCENTS[h % ACCENTS.length];
+}
+
 let library = [];
 
 async function boot(){
@@ -41,8 +49,8 @@ function renderLibrary(){
     </div>
     <div class="grid">
       ${library.map(s => `
-        <a class="card" href="#/series/${s.slug}">
-          <img class="cover" src="${src(s.cover)}" loading="lazy" alt="${s.title}">
+        <a class="card" href="#/series/${s.slug}" style="--accent:${accentFor(s.slug)}">
+          <div class="cover-wrap"><img class="cover" src="${src(s.cover)}" loading="lazy" alt="${s.title}"></div>
           <div class="title">${s.title}</div>
           <div class="author">${s.author}</div>
         </a>`).join('')}
@@ -54,19 +62,21 @@ function renderSeries(slug){
   const s = library.find(x => x.slug === slug);
   const app = document.getElementById('app');
   if (!s) { app.innerHTML = `<div class="empty">Không tìm thấy truyện.</div>`; return; }
+  const accent = accentFor(s.slug);
   app.innerHTML = `
     <div class="topbar"><a class="back" href="#/">←</a><h1>${s.title}</h1></div>
-    <div class="series-hero">
-      <img class="cover" src="${src(s.cover)}" alt="${s.title}">
+    <div class="series-hero" style="--accent:${accent}">
+      <div class="cover-wrap"><img class="cover" src="${src(s.cover)}" alt="${s.title}"></div>
       <div class="meta">
         <h1>${s.title}</h1>
         <div class="author">${s.author}</div>
         <div class="count">${s.chapters.length} chương</div>
       </div>
     </div>
-    <div class="chapter-list">
+    <div class="chapter-list" style="--accent:${accent}">
       ${s.chapters.map((c, i) => `
         <a class="chapter-row" href="#/read/${s.slug}/${i}/0">
+          <span class="chap-badge">${i + 1}</span>
           <span class="name">${c.name}</span>
           <span class="pages">${c.pages.length} trang</span>
         </a>`).join('')}
@@ -79,9 +89,10 @@ function renderReader(slug, chapterIdx, pageIdx){
   if (!s || !s.chapters[chapterIdx]) { location.hash = '#/'; return; }
   const chapter = s.chapters[chapterIdx];
   pageIdx = Math.max(0, Math.min(pageIdx, chapter.pages.length - 1));
+  const accent = accentFor(s.slug);
 
   document.getElementById('app').innerHTML = `
-    <div class="reader" id="reader">
+    <div class="reader" id="reader" style="--accent:${accent}">
       <div class="progress">${chapter.pages.map((_, i) => `<span class="${i <= pageIdx ? 'done' : ''}"></span>`).join('')}</div>
       <div class="page-wrap"><img id="page-img" src="${src(chapter.pages[pageIdx])}" alt=""></div>
       <div class="tap-zone tap-prev" id="tap-prev"></div>
@@ -143,7 +154,7 @@ function goPage(s, chapterIdx, pageIdx){
 
 function showEnd(s){
   document.getElementById('app').innerHTML = `
-    <div class="reader">
+    <div class="reader" style="--accent:${accentFor(s.slug)}">
       <div class="end-panel">
         <h2>Hết chương</h2>
         <p>Bạn đã đọc hết các chương hiện có của "${s.title}"</p>
